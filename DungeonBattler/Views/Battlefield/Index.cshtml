@@ -1,0 +1,105 @@
+﻿@model DungeonBattler.ViewModels.BattlefieldViewModel
+
+@{
+    ViewData["Title"] = "Battlefield";
+}
+
+
+
+<div class="container mt-4">
+    <div class="row">
+        <!-- Leva panel -->
+        <div class="col-md-3">
+            <div class="mb-3 p-2 border rounded bg-light">
+                <h5>Info</h5>
+                <!-- Fix -->
+                @* @foreach (string log in Model.Log) {
+                    <p>@log</p>
+                    Console.WriteLine("XDD");
+                }
+
+                <p>@Model.Log.First()</p> *@
+            </div>
+
+            <div class="p-2 border rounded bg-light mt-3">
+                <h5>Potions</h5>
+
+                <form asp-action="UsePotion" method="post">
+                    <input type="hidden" name="type" value="strength" />
+                    <button type="submit" class="btn btn-danger w-100 mb-2">🧪 Str +5</button>
+                </form>
+
+                <form asp-action="UsePotion" method="post">
+                    <input type="hidden" name="type" value="dexterity" />
+                    <button type="submit" class="btn btn-success w-100 mb-2">🧪 Dex +5</button>
+                </form>
+
+                <form asp-action="UsePotion" method="post">
+                    <input type="hidden" name="type" value="intelligence" />
+                    <button type="submit" class="btn btn-primary w-100">🧪 Int +5</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Hlavni plocha -->
+        <div class="col-md-9">
+            <h1>Battlefield</h1>
+
+            <h2>Enemies</h2>
+            <table class="table table-bordered table-striped" style="background-color: blue;">
+                <thead>
+                    <tr style="background-color: green;">
+                        <th>Name</th>
+                        <th>Health</th>
+                        <th>Attack</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var unit in Model.Units)
+                    {
+                        <tr id="unit-@unit.Id" data-health="@unit.Health">
+                            <td>@unit.Name</td>
+                            <td class="unit-health">@unit.Health</td>
+                            <td>@unit.Attack</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <h2>Heroes</h2>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Health</th>
+                        <th>Attack</th>
+                        <th>Str</th>
+                        <th>Dex</th>
+                        <th>Int</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var unit in Model.Pepos)
+                    {
+                        <tr>
+                            <td>@unit.Name</td>
+                            <td>@unit.Health</td>
+                            <td>@unit.Attack</td>
+                            <td>@unit.Strength</td>
+                            <td>@unit.Dexterity</td>
+                            <td>@unit.Inteligence</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<form asp-action="EndRound" method="post">
+    <button type="submit" class="btn btn-danger mb-3">End round</button>
+</form>
+
+<form asp-action="Restore" method="post">
+    <button type="submit" class="btn btn-danger mb-3">Restore</button>
+</form>
